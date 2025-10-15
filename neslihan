@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doğum Günün Kutlu Olsun Neslihan!</title>
+  <style>
+    :root{--bg:#fff7ef;--accent:#ff5e84;--accent2:#ffd166}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{background:linear-gradient(180deg,var(--bg),#fff);display:flex;align-items:center;justify-content:center;color:#333}
+    .card{width:min(920px,96vw);height:min(620px,88vh);background:linear-gradient(135deg,rgba(255,255,255,0.9),rgba(255,250,240,0.9));border-radius:18px;box-shadow:0 14px 40px rgba(0,0,0,0.12);overflow:hidden;position:relative}
+    header{padding:28px 36px;display:flex;align-items:center;gap:16px}
+    .logo{width:60px;height:60px;border-radius:12px;background:conic-gradient(var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    .title{font-size:20px;font-weight:700}
+    .stage{display:grid;grid-template-columns:1fr 420px;gap:12px;height:calc(100% - 92px);padding:24px}
+    .left{position:relative;background:linear-gradient(180deg,#fff 0%,#fffefc 100%);border-radius:12px;padding:18px;overflow:hidden}
+    .message{font-size:36px;font-weight:800;line-height:1.02;margin:8px 0}
+    .sub{font-size:18px;color:#555;margin-bottom:12px}
+    .action{display:flex;gap:12px;align-items:center}
+    .btn{background:var(--accent);color:white;padding:12px 18px;border-radius:12px;border:0;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(255,94,132,0.18)}
+    .btn.secondary{background:transparent;color:var(--accent);border:2px solid rgba(255,94,132,0.14)}
+    .preview{font-size:14px;color:#666}
+    .right{display:flex;flex-direction:column;gap:12px}
+    label{font-size:13px;color:#444}
+    input[type=text],textarea{width:100%;padding:10px;border-radius:10px;border:1px solid #eee;background:#fafafa}
+    textarea{min-height:120px}
+    .balloon{position:absolute;width:140px;height:180px;left:40px;top:30px;transform-origin:center bottom}
+    .balloon .inner{width:100%;height:100%;border-radius:60% 60% 60% 60%/70% 70% 30% 30%;background:linear-gradient(180deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;color:white;font-weight:800}
+    canvas.confetti{position:absolute;inset:0;pointer-events:none}
+    footer{position:absolute;left:18px;right:18px;bottom:18px;font-size:12px;color:#777;display:flex;justify-content:space-between}
+    @media (max-width:880px){.stage{grid-template-columns:1fr;grid-auto-rows:1fr}.right{order:2}}
+  </style>
+</head>
+<body>
+  <div class="card" role="application">
+    <header>
+      <div class="logo">BD</div>
+      <div>
+        <div class="title">Sürpriz Doğum Günü Kutlaması</div>
+        <div style="font-size:13px;color:#666">Tek link — paylaş, açsın, kutlama başlasın 🎉</div>
+      </div>
+    </header>
+
+    <div class="stage">
+      <div class="left">
+        <canvas class="confetti" id="confetti"></canvas>
+        <div style="padding:20px;position:relative;z-index:2">
+          <div class="message" id="greeting">Doğum Günün Kutlu Olsun, <span id="who">Neslihan</span>!</div>
+          <div class="sub" id="customMsg">Aslında hediye sensin; ben sadece seni kutlama bahanesi buldum!</div>
+          <div class="action">
+            <button class="btn" id="openGift">Kutuyu Aç 🎁</button>
+            <button class="btn secondary" id="playMusic">Müziği Çal ▶</button>
+            <div style="margin-left:auto" class="preview">Paylaşmak için sayfayı kopyala — link hazır.</div>
+          </div>
+          <div style="margin-top:18px">
+            <img id="gift" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='160'><rect rx='12' ry='12' x='10' y='10' width='240' height='140' fill='%23fff7f9' stroke='%23ffd0dc' stroke-width='6'/><g transform='translate(60,20)'><rect x='0' y='0' width='140' height='80' rx='8' fill='%23ff5e84'/></g></svg>" alt="gift" style="width:260px;border-radius:12px;display:block;margin-top:18px;box-shadow:0 10px 30px rgba(0,0,0,0.08)"/>
+          </div>
+        </div>
+      </div>
+      <aside class="right">
+        <div>
+          <label>İsim (sayfada görünecek)</label>
+          <input id="inputName" type="text" placeholder="Neslihan" />
+        </div>
+        <div>
+          <label>Özel mesaj</label>
+          <textarea id="inputMsg">Aslında hediye sensin; ben sadece seni kutlama bahanesi buldum!</textarea>
+        </div>
+        <div>
+          <label>Arka plan müziği</label>
+          <input id="inputMusic" type="text" value="https://youtu.be/CWHqdcBE1Ls?list=PLiF7nO4rHMbNjki0RH0FIlDHsZ3-iCzmD" />
+        </div>
+        <div style="display:flex;gap:8px">
+          <button id="apply" class="btn">Kaydet ve Önizle</button>
+          <button id="reset" class="btn secondary">Sıfırla</button>
+        </div>
+      </aside>
+    </div>
+    <footer>
+      <div>Hazır şablon — düzenlemek için sağdaki kutuları kullan.</div>
+      <div>🎈</div>
+    </footer>
+  </div>
+  <audio id="bgAudio" loop preload="none" src="https://youtu.be/CWHqdcBE1Ls?list=PLiF7nO4rHMbNjki0RH0FIlDHsZ3-iCzmD"></audio>
+  <script>
+    const bgAudio = document.getElementById('bgAudio');
+    const playBtn = document.getElementById('playMusic');
+    playBtn.addEventListener('click', ()=>{
+      if(bgAudio.paused){bgAudio.play().catch(()=>alert('Tarayıcı engelliyor olabilir, lütfen manuel çal.'));playBtn.textContent='Müziği Durdur ⏸';}
+      else {bgAudio.pause();playBtn.textContent='Müziği Çal ▶';}
+    });
+  </script>
+</body>
+</html>
